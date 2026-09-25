@@ -4,7 +4,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .cache/
-models/
+/models/
 *.gguf
 *.safetensors
 *.hwp
@@ -14,6 +14,7 @@ models/
 !.env.example
 *.log
 local/
+/docs/
 desktop.ini
 .DS_Store
 *.pem
