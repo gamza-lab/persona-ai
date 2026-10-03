@@ -1,8 +1,4 @@
 from pathlib import Path
-from html import escape
-import os
-import re
-from urllib.parse import urlsplit
 
 import gradio as gr
 from fastapi import HTTPException
@@ -39,20 +35,7 @@ def conversation_from_history(history):
 
 
 def build_view(controller):
-    """채팅 화면을 만들고 공유 URL이 설정되어 있으면 Delightex 장면을 나란히 붙인다.
-
-    장면은 iframe으로 표시할 뿐 외부에서 제어하지 않는다.
-    답변 자막은 iframe 밖의 웹 요소이며 채팅 기록 변경으로 갱신한다.
-    """
-    embed_url = os.getenv("DELIGHTEX_EMBED_URL", "").strip()
-    if embed_url:
-        # 편집 페이지나 임의 사이트 대신 공식 공유 링크만 iframe에 허용한다.
-        parsed = urlsplit(embed_url)
-        if (parsed.scheme != "https" or parsed.hostname != "edu.delightex.com"
-                or parsed.username or parsed.password or parsed.port not in (None, 443)
-                or not re.fullmatch(r"/[A-Z0-9]{3}-[A-Z0-9]{3}", parsed.path)
-                or parsed.query or parsed.fragment):
-            raise ValueError("DELIGHTEX_EMBED_URL must be an official https://edu.delightex.com/XXX-XXX share URL")
+    """브라우저에서 사용할 단독 채팅 화면을 만든다."""
 
     async def respond(message, history):
         """화면 입력을 공통 컨트롤러에 전달하고 오류를 Gradio 알림으로 표시한다."""
@@ -69,24 +52,7 @@ def build_view(controller):
         gr.HTML('<header class="persona-header"><div class="seal">世宗</div>'
                 '<div><p>1449 · 조선</p><h1>세종과의 만남</h1></div>'
                 '<span class="fiction">AI 역사 인물 · 창작 대화</span></header>')
-        with gr.Row(elem_classes=["experience-layout"]):
-            if embed_url:
-                # 자막은 부모 웹의 요소다. 갱신 시 iframe을 다시 로드하지 않는다.
-                with gr.Column(scale=7, min_width=320):
-                    gr.HTML('<section data-persona-stage class="persona-stage">'
-                            '<iframe class="delightex-scene" title="세종 3D 장면" '
-                            f'src="{escape(embed_url, quote=True)}" '
-                            'allow="fullscreen; xr-spatial-tracking" allowfullscreen '
-                            'referrerpolicy="strict-origin-when-cross-origin"></iframe>'
-                            '<div class="scene-caption"><strong>세종</strong>'
-                            f'<p data-caption data-opening="{escape(OPENING, quote=True)}" '
-                            f'aria-live="polite">{escape(OPENING)}</p></div></section>')
-            with gr.Column(scale=4, min_width=320):
-                chat = build_chat(respond)
-        if embed_url:
-            # 기록이 바뀌면 자막 텍스트만 갱신한다. iframe에는 메시지를 보내지 않는다.
-            chat.chatbot.change(fn=None, inputs=[chat.chatbot], outputs=[], queue=False,
-                                js=Path(__file__).with_name("caption.js").read_text(encoding="utf-8"))
+        build_chat(respond)
     return view
 
 

@@ -36,10 +36,13 @@ def create_app(model=None, with_ui=True):
         await model.close()
 
     application = FastAPI(title="Persona Chat", lifespan=lifespan)
-    origins = os.getenv("CORS_ORIGINS", "https://edu.delightex.com").split(",")
-    # 다른 출처의 브라우저 요청을 허용하는 설정이며, 사용자 인증 기능은 아니다.
-    application.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in origins],
-                               allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
+    origins = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "").split(",")
+               if origin.strip()]
+    # 브라우저 연동이 필요한 배포에서만 허용할 출처를 명시한다. Roblox 서버 요청에는 CORS가 적용되지 않는다.
+    if origins:
+        application.add_middleware(CORSMiddleware, allow_origins=origins,
+                                   allow_methods=["GET", "POST"],
+                                   allow_headers=["Content-Type"])
 
     @application.get("/health")
     async def health():

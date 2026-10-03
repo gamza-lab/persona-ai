@@ -1,5 +1,10 @@
 # 세종 페르소나 AI 실습
 
+이 브랜치는 **웹 브라우저 채팅 실습**용입니다. 웹 화면의 설치와 실행 방법은
+[`web-chat/README.md`](web-chat/README.md)를 따릅니다.
+
+Roblox Studio 실습 자료는 `feature/roblox-chat` 브랜치에서 관리합니다.
+
 ## 1. 처음 설치
 
 JupyterLab의 Launcher에서 **Terminal**을 연다. 아래 명령으로 GPU가 A100 80GB인지 확인한다.
@@ -12,7 +17,7 @@ nvidia-smi
 
 ```bash
 cd ~
-git clone https://github.com/whyz-dev/persona-ai.git
+git clone https://github.com/gamza-lab/persona-ai.git
 cd persona-ai
 ```
 
