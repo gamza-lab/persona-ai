@@ -6,8 +6,9 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-# 기존 CLI의 프롬프트와 검색 함수를 재사용할 수 있도록 저장소 루트를 등록한다.
-sys.path.insert(0, str(ROOT.parents[1]))
+PERSONA_CORE = ROOT.parents[1] / "persona-core"
+# CLI 실습의 프롬프트와 검색 함수를 재사용한다.
+sys.path.insert(0, str(PERSONA_CORE))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

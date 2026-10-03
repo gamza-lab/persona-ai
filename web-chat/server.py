@@ -6,8 +6,9 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-# 기존 CLI의 프롬프트와 검색 함수를 재사용할 수 있도록 저장소 루트를 등록한다.
-sys.path.insert(0, str(ROOT.parent))
+PERSONA_CORE = ROOT.parent / "persona-core"
+# CLI 실습의 프롬프트와 검색 함수를 재사용한다.
+sys.path.insert(0, str(PERSONA_CORE))
 
 import gradio as gr
 from fastapi import FastAPI
