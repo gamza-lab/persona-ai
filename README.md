@@ -1,9 +1,14 @@
 # 세종 페르소나 AI 실습
 
+이 브랜치는 **웹 브라우저 채팅 실습**용입니다. 웹 화면의 설치와 실행 방법은
+[`web-chat/README.md`](web-chat/README.md)를 따릅니다.
+
+Roblox Studio 실습 자료는 `feature/roblox-chat` 브랜치에서 관리합니다.
+
 ## 1. 처음 설치
 
 VESSL Workspace는 `Torch 2.9.1 (CUDA 13.0.1, Python 3.13)` 컨테이너와
-`A100 SXM 80GB x 1` GPU로 생성한다.
+`A100 SXM 80GB x 1` GPU로 생성한다. 외부 웹 접속을 위해 HTTP 포트 `7860`도 추가한다.
 
 JupyterLab의 Launcher에서 **Terminal**을 연다. 아래 명령으로 GPU가 A100 80GB인지 확인한다.
 
@@ -15,7 +20,7 @@ nvidia-smi
 
 ```bash
 cd ~
-git clone https://github.com/whyz-dev/persona-ai.git
+git clone https://github.com/gamza-lab/persona-ai.git
 cd persona-ai
 ```
 
@@ -26,8 +31,8 @@ Python 3.13 가상환경과 필요한 패키지를 설치한다. 이 과정은 �
 python3.13 -m venv .venv
 source .venv/bin/activate
 
-# 활성화한 가상환경에 모델 서버와 대화 프로그램의 패키지를 설치한다.
-python -m pip install -r requirements.txt
+# 활성화한 가상환경에 모델 서버와 웹 서버의 패키지를 설치한다.
+python -m pip install -r web-chat/requirements.txt
 ```
 
 설치가 끝나면 같은 터미널에서 다음 단계로 진행한다.
