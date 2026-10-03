@@ -1,4 +1,4 @@
-"""실행 진입점: 모델과 컨트롤러를 만들고 JSON API와 Gradio 화면을 연결한다."""
+"""Roblox가 호출할 JSON API 서버를 실행한다."""
 
 import os
 import sys
@@ -7,9 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 # 기존 CLI의 프롬프트와 검색 함수를 재사용할 수 있도록 저장소 루트를 등록한다.
-sys.path.insert(0, str(ROOT.parent))
+sys.path.insert(0, str(ROOT.parents[1]))
 
-import gradio as gr
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -17,15 +16,10 @@ from fastapi.responses import JSONResponse
 from controllers.chat import ChatController
 from models.conversation import ChatReply, ChatRequest
 from models.persona import PersonaModel
-from views.chat import build_view
 
 
-def create_app(model=None, with_ui=True):
-    """웹과 API가 같은 대화 처리기를 사용하도록 앱을 구성한다.
-
-    model을 전달하면 그 객체를 사용하고, 생략하면 실제 vLLM 연결을 만든다.
-    with_ui=False이면 Gradio 없이 JSON API만 제공한다.
-    """
+def create_app(model=None):
+    """Roblox용 API 앱을 구성한다."""
     model = model if model is not None else PersonaModel()
     controller = ChatController(model)
 
@@ -36,15 +30,18 @@ def create_app(model=None, with_ui=True):
         await model.close()
 
     application = FastAPI(title="Persona Chat", lifespan=lifespan)
-    origins = os.getenv("CORS_ORIGINS", "https://edu.delightex.com").split(",")
-    # 다른 출처의 브라우저 요청을 허용하는 설정이며, 사용자 인증 기능은 아니다.
-    application.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in origins],
-                               allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
+    origins = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "").split(",")
+               if origin.strip()]
+    # 브라우저 연동이 필요한 배포에서만 허용할 출처를 명시한다. Roblox 서버 요청에는 CORS가 적용되지 않는다.
+    if origins:
+        application.add_middleware(CORSMiddleware, allow_origins=origins,
+                                   allow_methods=["GET", "POST"],
+                                   allow_headers=["Content-Type"])
 
     @application.get("/health")
     async def health():
         """웹 서버가 살아 있는지 확인한다. 모델 준비 여부와는 별개다."""
-        return {"ok": True, "service": "persona-web-chat"}
+        return {"ok": True, "service": "persona-roblox-chat"}
 
     @application.get("/ready")
     async def ready():
@@ -57,15 +54,6 @@ def create_app(model=None, with_ui=True):
         """질문과 이전 대화 상태를 받아 답변 및 갱신된 상태를 JSON으로 반환한다."""
         return await controller.chat(request)
 
-    if with_ui:
-        # API 경로를 유지하면서 루트 주소에는 사용자용 채팅 화면을 붙인다.
-        application = gr.mount_gradio_app(
-            application, build_view(controller), path="/", footer_links=[],
-            run_history=False, show_error=False, ssr_mode=False,
-            theme=gr.themes.Default(primary_hue="emerald", neutral_hue="gray",
-                                    font=["Arial", "sans-serif"], font_mono=["monospace"]),
-            css_paths=ROOT / "views" / "style.css",
-        )
     return application
 
 
