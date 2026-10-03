@@ -47,29 +47,13 @@ git clone --depth 1 --branch feature/roblox-chat https://github.com/gamza-lab/pe
 cd persona-ai
 ```
 
-이미 `/root/persona-ai`가 있다면 새로 복제하지 않고 다음 명령으로 업데이트합니다.
-
-```bash
-cd /root/persona-ai
-git fetch origin feature/roblox-chat
-git switch feature/roblox-chat
-git pull --ff-only origin feature/roblox-chat
-```
-
-Python 3.13 가상환경과 필요한 패키지를 설치합니다. 최초 한 번만 실행하면 됩니다.
+가상환경과 필요한 패키지를 설치합니다. 최초 한 번만 실행하면 됩니다.
 모델 서버와 Roblox API 서버는 같은 가상환경을 사용합니다.
 
 ```bash
 cd /root/persona-ai
-python3.13 --version
 python3.13 -m venv .venv
 .venv/bin/python -m pip install -r roblox-chat/vessl-server/requirements.txt
-```
-
-다음 명령이 `Python 3.13.x`를 표시해야 합니다.
-
-```bash
-.venv/bin/python --version
 ```
 
 `/root`에 Persistent volume을 연결했으므로 프로젝트, 가상환경과 다운로드한 모델은 Workspace를 다시 시작해도 유지됩니다.
@@ -165,7 +149,6 @@ Roblox Studio 위쪽의 **홈 > 게임 설정 > 보안**을 열고 **HTTP 요청
 
 | 문제 | 확인할 것 |
 | --- | --- |
-| `persona-ai` 폴더가 이미 있다는 메시지 | 새로 복제하지 말고 기존 프로젝트 업데이트 명령 사용 |
 | `/ready`에서 `false` 표시 | 모델 서버가 `Application startup complete` 상태인지 확인 |
 | 서버 주소 설정 메시지 | `PersonaApiUrl`에 기본 주소를 입력했는지 확인 |
 | HTTP 요청 오류 | Roblox Studio에서 **HTTP 요청 허용**을 켰는지 확인 |
