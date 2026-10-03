@@ -18,7 +18,7 @@ VESSL의 **Workspaces** 화면에서 새 Workspace를 만들고 다음 값을 �
 
 | 항목 | 선택할 값 |
 | --- | --- |
-| Container | `Torch 2.9.1 (CUDA 13.0.1, Python 3.12)` |
+| Container | `Torch 2.9.1 (CUDA 13.0.1, Python 3.13)` |
 | GPU | `A100 SXM 80GB x 1` |
 | Persistent volume | 사용할 Cluster storage 볼륨 |
 | Mount Path | `/root` |
@@ -56,13 +56,20 @@ git switch feature/roblox-chat
 git pull --ff-only origin feature/roblox-chat
 ```
 
-Python 가상환경과 필요한 패키지를 설치합니다. 최초 한 번만 실행하면 됩니다.
+Python 3.13 가상환경과 필요한 패키지를 설치합니다. 최초 한 번만 실행하면 됩니다.
+모델 서버와 Roblox API 서버는 같은 가상환경을 사용합니다.
 
 ```bash
 cd /root/persona-ai
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install "vllm==0.29.0" -r roblox-chat/vessl-server/requirements.txt
+python3.13 --version
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r roblox-chat/vessl-server/requirements.txt
+```
+
+다음 명령이 `Python 3.13.x`를 표시해야 합니다.
+
+```bash
+.venv/bin/python --version
 ```
 
 `/root`에 Persistent volume을 연결했으므로 프로젝트, 가상환경과 다운로드한 모델은 Workspace를 다시 시작해도 유지됩니다.
