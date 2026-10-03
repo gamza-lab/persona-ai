@@ -55,7 +55,7 @@ nvidia-smi
 
 ```bash
 cd /root
-git clone --depth 1 --branch feature/roblox-chat https://github.com/gamza-lab/persona-ai.git
+git clone --depth 1 https://github.com/gamza-lab/persona-ai.git
 cd persona-ai
 ```
 
@@ -78,7 +78,7 @@ python3.13 -m venv .venv
 cd /root/persona-ai
 source .venv/bin/activate
 
-vllm serve Qwen/Qwen3.5-27B-FP8 \
+vllm serve LGAI-EXAONE/EXAONE-4.5-33B \
   --host 127.0.0.1 \
   --port 8000 \
   --language-model-only \
@@ -88,7 +88,7 @@ vllm serve Qwen/Qwen3.5-27B-FP8 \
   --enforce-eager
 ```
 
-처음 실행할 때는 약 31GB의 모델을 다운로드합니다. `Application startup complete`가 표시될 때까지 기다리고, 이 터미널은 계속 실행해 둡니다.
+처음 실행할 때는 모델 파일을 다운로드합니다. `Application startup complete`가 표시될 때까지 기다리고, 이 터미널은 계속 실행해 둡니다.
 
 ## 4. 터미널 2에서 Roblox 채팅 서버 실행하기
 
@@ -100,7 +100,7 @@ source .venv/bin/activate
 curl -fsS http://127.0.0.1:8000/v1/models
 ```
 
-결과에 `Qwen/Qwen3.5-27B-FP8`이 표시되면 Roblox 채팅 서버를 실행합니다.
+결과에 `LGAI-EXAONE/EXAONE-4.5-33B`이 표시되면 Roblox 채팅 서버를 실행합니다.
 
 ```bash
 WEB_HOST=0.0.0.0 WEB_PORT=7860 python roblox-chat/vessl-server/server.py

@@ -16,7 +16,7 @@ from langchain_openai import ChatOpenAI
 
 ROOT = Path(__file__).resolve().parent
 BASE_URL = "http://127.0.0.1:8000/v1"
-MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
+MODEL_NAME = "LGAI-EXAONE/EXAONE-4.5-33B"
 
 # CLI 시작 화면에 출력하는 안내 문구와 첫 대사
 WELCOME = """

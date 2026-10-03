@@ -16,6 +16,8 @@ VESSL Workspace는 `Torch 2.9.1 (CUDA 13.0.1, Python 3.13)` 컨테이너와
 `A100 SXM 80GB x 1` GPU를 사용합니다. 웹과 Roblox 실습은 외부 접속을 위해
 각 안내서에 적힌 HTTP 포트도 추가해야 합니다.
 
+모든 실습은 `LGAI-EXAONE/EXAONE-4.5-33B` 모델을 텍스트 전용·비추론 모드로 사용합니다.
+
 ## 저장소 구조
 
 ```text
