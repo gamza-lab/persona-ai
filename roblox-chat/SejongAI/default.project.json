@@ -1,0 +1,61 @@
+{
+  "name": "PersonaSejongChat",
+  "tree": {
+    "$className": "DataModel",
+    "HttpService": {
+      "$className": "HttpService",
+      "$properties": {
+        "HttpEnabled": true
+      }
+    },
+    "Workspace": {
+      "$className": "Workspace",
+      "SejongGround": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "BottomSurface": "Smooth",
+          "CanCollide": true,
+          "Color": [0.282, 0.396, 0.286],
+          "Material": "Grass",
+          "Position": [0, -0.5, 0],
+          "Size": [120, 1, 120],
+          "TopSurface": "Smooth"
+        }
+      },
+      "SejongSpawn": {
+        "$className": "SpawnLocation",
+        "$properties": {
+          "Anchored": true,
+          "CanCollide": true,
+          "Color": [0.972, 0.972, 0.972],
+          "Duration": 0,
+          "Neutral": true,
+          "Position": [0, 0.5, 14],
+          "Size": [8, 1, 8]
+        }
+      },
+      "Sejong": {
+        "$path": "SejongCharacter.rbxm"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "PersonaChatServer": {
+        "$path": "ServerScriptService/PersonaChatServer.server.lua",
+        "$attributes": {
+          "PersonaApiUrl": "https://replace-me.invalid"
+        }
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "PersonaChatClient": {
+          "$path": "StarterPlayer/StarterPlayerScripts/PersonaChatClient.client.lua"
+        }
+      }
+    }
+  }
+}
