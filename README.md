@@ -7,6 +7,9 @@ Roblox Studio 실습 자료는 `feature/roblox-chat` 브랜치에서 관리합�
 
 ## 1. 처음 설치
 
+VESSL Workspace는 `Torch 2.9.1 (CUDA 13.0.1, Python 3.13)` 컨테이너와
+`A100 SXM 80GB x 1` GPU로 생성한다. 외부 웹 접속을 위해 HTTP 포트 `7860`도 추가한다.
+
 JupyterLab의 Launcher에서 **Terminal**을 연다. 아래 명령으로 GPU가 A100 80GB인지 확인한다.
 
 ```bash
@@ -21,15 +24,15 @@ git clone https://github.com/gamza-lab/persona-ai.git
 cd persona-ai
 ```
 
-Python 3.12 가상환경과 필요한 패키지를 설치한다. 이 과정은 최초 한 번 수행한다.
+Python 3.13 가상환경과 필요한 패키지를 설치한다. 이 과정은 최초 한 번 수행한다.
 
 ```bash
-# Python 3.12로 가상환경을 만들고 활성화한다.
-python3.12 -m venv .venv
+# Python 3.13으로 가상환경을 만들고 활성화한다.
+python3.13 -m venv .venv
 source .venv/bin/activate
 
-# 활성화한 가상환경에 모델 서버와 대화 프로그램의 패키지를 설치한다.
-python -m pip install "vllm==0.29.0" -r requirements.txt
+# 활성화한 가상환경에 모델 서버와 웹 서버의 패키지를 설치한다.
+python -m pip install -r web-chat/requirements.txt
 ```
 
 설치가 끝나면 같은 터미널에서 다음 단계로 진행한다.
