@@ -17,7 +17,7 @@ web-chat/
 
 ## 실행
 
-저장소 루트에서 Python 3.12 환경을 사용합니다.
+저장소 루트에서 Python 3.13 환경을 사용합니다.
 
 ```bash
 python -m pip install -r web-chat/requirements.txt
@@ -42,17 +42,14 @@ python web-chat/server.py
 ### 최초 설치
 
 VESSL Linux 터미널에서 실행합니다. 저장소가 `/root/persona-ai`에 있고,
-기본 이미지의 Python이 `/opt/conda/bin/python`에 있는 환경 기준입니다.
-이미 설치된 환경에서는 이 단계를 건너뜁니다. 모델과 웹의 의존성은 별도 환경에 설치합니다.
+컨테이너에 `python3.13`이 설치된 환경 기준입니다.
+이미 설치된 환경에서는 이 단계를 건너뜁니다. 모델과 웹은 같은 가상환경을 사용합니다.
 
 ```bash
 cd /root/persona-ai
-/opt/conda/bin/python -m pip install 'uv==0.10.12'
-/opt/conda/bin/python -m uv python install 3.12
-/opt/conda/bin/python -m uv venv .venv-model --python 3.12
-/opt/conda/bin/python -m uv pip install --python .venv-model/bin/python 'vllm==0.29.0'
-/opt/conda/bin/python -m uv venv .venv-web --python 3.12
-/opt/conda/bin/python -m uv pip install --python .venv-web/bin/python -r web-chat/requirements.txt
+python3.13 --version
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r web-chat/requirements.txt
 ```
 
 ### 모델 실행: 터미널 1
@@ -62,7 +59,7 @@ cd /root/persona-ai
 
 ```bash
 cd /root/persona-ai
-source .venv-model/bin/activate
+source .venv/bin/activate
 vllm serve Qwen/Qwen3.5-27B-FP8 \
   --host 127.0.0.1 --port 8000 \
   --language-model-only --max-model-len 8192 --max-num-seqs 1 \
@@ -73,7 +70,7 @@ vllm serve Qwen/Qwen3.5-27B-FP8 \
 
 ```bash
 cd /root/persona-ai
-WEB_HOST=0.0.0.0 .venv-web/bin/python web-chat/server.py
+WEB_HOST=0.0.0.0 .venv/bin/python web-chat/server.py
 ```
 
 Delightex 장면과 채팅을 함께 표시하려면 웹 실행 명령을 다음으로 바꿉니다.
@@ -81,7 +78,7 @@ Delightex 장면과 채팅을 함께 표시하려면 웹 실행 명령을 다음
 
 ```bash
 WEB_HOST=0.0.0.0 DELIGHTEX_EMBED_URL=https://edu.delightex.com/YXR-FSK \
-  .venv-web/bin/python web-chat/server.py
+  .venv/bin/python web-chat/server.py
 ```
 
 `DELIGHTEX_EMBED_URL`에는 Delightex 공유 화면의 공식 임베드 코드에 있는
