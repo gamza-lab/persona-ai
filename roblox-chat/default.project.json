@@ -34,6 +34,9 @@
           "Position": [0, 0.5, 14],
           "Size": [8, 1, 8]
         }
+      },
+      "Sejong": {
+        "$path": "SejongCharacter.rbxm"
       }
     },
     "ServerScriptService": {
@@ -43,9 +46,6 @@
         "$attributes": {
           "PersonaApiUrl": "https://replace-me.invalid"
         }
-      },
-      "SejongNpc": {
-        "$path": "ServerScriptService/SejongNpc.server.lua"
       }
     },
     "StarterPlayer": {
